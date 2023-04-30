@@ -29,7 +29,7 @@ def process_json():
     data = json.loads(request.data)
     data["id"] = str(uuid.uuid4())
     container.create_item(data)
-    service.send_to_all(message=data, logging_enable=True)
+    service.send_to_all(message=json.dumps(data), logging_enable=True)
     return data, 201
 
 
