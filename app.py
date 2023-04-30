@@ -2,13 +2,11 @@ from flask import Flask, json, request
 import os
 import uuid
 from azure.cosmos import CosmosClient
-from azure.identity import DefaultAzureCredential
+# from azure.identity import DefaultAzureCredential
 
 # Cosmos DB NOSQL config
-endpoint = os.environ["COSMOS_ENDPOINT"]
 DATABASE_NAME = "cosmicworks"
 CONTAINER_NAME = "data"
-credential = DefaultAzureCredential()
 client = CosmosClient.from_connection_string("AccountEndpoint=https://endpointcosmos.documents.azure.com:443/;AccountKey=m8LD7A5sWsiAqvfPHkGBkQCepDNebI2iunln8GA8fypznI8aFkgNHCTrr1dSwpoldmVswl3oWO1VACDbv1s84A==;")
 
 database = client.get_database_client(DATABASE_NAME)
