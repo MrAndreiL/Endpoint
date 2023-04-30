@@ -1,5 +1,4 @@
 from flask import Flask, json, request
-import os
 import uuid
 from azure.cosmos import CosmosClient
 from azure.core.credentials import AzureKeyCredential
@@ -16,6 +15,7 @@ container = database.get_container_client(CONTAINER_NAME)
 
 # pubsub service
 service = WebPubSubServiceClient(endpoint="https://endpointpubsub.webpubsub.azure.com", hub='hub', credential=AzureKeyCredential('Z4HnWctxx27lFBrkQ+Bcr0UdijAARBq5rNxNdsGQ9bo='))
+
 app = Flask(__name__)
 
 
@@ -29,7 +29,7 @@ def process_json():
     data = json.loads(request.data)
     data["id"] = str(uuid.uuid4())
     container.create_item(data)
-    service.send_to_all(message=json.dumps(data), logging_enable=True)
+    service.send_to_all(data, content_type="application/json")
     return data, 201
 
 
