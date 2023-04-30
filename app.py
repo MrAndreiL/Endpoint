@@ -21,7 +21,7 @@ database = client.get_database_client(DATABASE_NAME)
 container = database.get_container_client(CONTAINER_NAME)
 
 # pubsub service
-service = WebPubSubServiceClient(endpoint="https://endpointpubsub.webpubsub.azure.com", hub='hub', credential=AzureKeyCredential('Z4HnWctxx27lFBrkQ+Bcr0UdijAARBq5rNxNdsGQ9bo='), logging_enable=True)
+service = WebPubSubServiceClient.from_connection_string("Endpoint=https://endpointpubsub.webpubsub.azure.com;AccessKey=Z4HnWctxx27lFBrkQ+Bcr0UdijAARBq5rNxNdsGQ9bo=;Version=1.0;", hub='hub')
 
 app = Flask(__name__)
 
