@@ -2,7 +2,7 @@ from flask import Flask, json, request
 import os
 import uuid
 from azure.cosmos import CosmosClient
-from azure.identity import DefaultAzureCredential
+from azure.core.credentials import AzureKeyCredential
 from azure.messaging.webpubsubservice import WebPubSubServiceClient
 
 # Cosmos DB NOSQL config
@@ -15,7 +15,7 @@ database = client.get_database_client(DATABASE_NAME)
 container = database.get_container_client(CONTAINER_NAME)
 
 # pubsub service
-service = WebPubSubServiceClient(endpoint="https://endpointpubsub.webpubsub.azure.com", hub='hub', credential=DefaultAzureCredential(), logging_enable=True)
+service = WebPubSubServiceClient(endpoint="https://endpointpubsub.webpubsub.azure.com", hub='hub', credential=AzureKeyCredential('Z4HnWctxx27lFBrkQ+Bcr0UdijAARBq5rNxNdsGQ9bo='))
 app = Flask(__name__)
 
 
