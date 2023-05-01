@@ -3,7 +3,6 @@ import uuid
 import sys
 import logging
 from azure.cosmos import CosmosClient
-from azure.core.credentials import AzureKeyCredential
 from azure.messaging.webpubsubservice import WebPubSubServiceClient
 
 # Cosmos DB NOSQL config
@@ -21,7 +20,8 @@ database = client.get_database_client(DATABASE_NAME)
 container = database.get_container_client(CONTAINER_NAME)
 
 # pubsub service
-service = WebPubSubServiceClient.from_connection_string("Endpoint=https://endpointpubsub.webpubsub.azure.com;AccessKey=Z4HnWctxx27lFBrkQ+Bcr0UdijAARBq5rNxNdsGQ9bo=;Version=1.0;", hub='hub')
+service = WebPubSubServiceClient.from_connection_string("Endpoint=https://endpointpubsub.webpubsub.azure.com;AccessKey=tTTisi1heGR+td4qdXuGApTR1ZVH/P/cV12VeTvKin4=;Version=1.0;",
+                                                        hub='hub')
 
 app = Flask(__name__)
 
@@ -36,8 +36,7 @@ def process_json():
     data = json.loads(request.data)
     data["id"] = str(uuid.uuid4())
     container.create_item(data)
-    res = service.send_to_all(data, content_type="application/json", logging_enable=True)
-    logging.debug(res)
+    service.send_to_all(data, content_type="application/json")
     return data, 201
 
 
