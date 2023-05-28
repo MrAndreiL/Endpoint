@@ -4,6 +4,7 @@ import asyncio
 from azure.servicebus.aio import ServiceBusClient
 from azure.servicebus import ServiceBusMessage
 from azure.cosmos import CosmosClient
+from azure.messaging.webpubsubservice import WebPubSubServiceClient
 app = Flask(__name__)
 
 DATABASE_NAME = "cosmicworks"
@@ -20,16 +21,19 @@ QUEUE_NAME = "endpointbusqueue"
 def hello():
     return "Hello, World", 200
 
+async def send_message(sender, message):
+    single_message = ServiceBusMessage(str(message))
+    await sender.send_messages(single_message)
+
 @app.route("/collections", methods=['POST'])
 def process_json():
     data = json.loads(request.data)
     data["id"] = str(uuid.uuid4())
     container.create_item(data)
     # Send to bus.
-    with ServiceBusClient.from_connection_string(NAMESPACE_CONNECTION_STRING) as client:
-        message = ServiceBusMessage(data)
-        sender = client.get_queue_sender(QUEUE_NAME)
-        sender.send(message)
+    client = ServiceBusClient.from_connection_string(NAMESPACE_CONNECTION_STRING)
+    sender = client.get_queue_sender(QUEUE_NAME)
+    send_message(sender, data)
     return data, 201
 
 if __name__ == "__main__":
