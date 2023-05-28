@@ -16,7 +16,7 @@ container = database.get_container_client(CONTAINER_NAME)
 def hello():
     return "Hello, World", 200
 
-@app.route("/collections", method=['POST'])
+@app.route("/collections", methods=['POST'])
 def process_json():
     data = json.loads(request.data)
     data["id"] = str(uuid.uuid4())
