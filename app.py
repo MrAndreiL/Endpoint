@@ -1,7 +1,7 @@
 from flask import Flask, json, request
-#import uuid
-#from azure.cosmos import CosmosClient
-#from azure.messaging.webpubsubservice import WebPubSubServiceClient
+import uuid
+from azure.cosmos import CosmosClient
+from azure.messaging.webpubsubservice import WebPubSubServiceClient
 app = Flask(__name__)
 
 DATABASE_NAME = "cosmicworks"
