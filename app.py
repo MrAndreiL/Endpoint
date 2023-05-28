@@ -1,7 +1,7 @@
 from flask import Flask, json, request
-import uuid
-from azure.cosmos import CosmosClient
-from azure.messaging.webpubsubservice import WebPubSubServiceClient
+#import uuid
+#from azure.cosmos import CosmosClient
+#from azure.messaging.webpubsubservice import WebPubSubServiceClient
 app = Flask(__name__)
 
 DATABASE_NAME = "cosmicworks"
@@ -16,12 +16,12 @@ container = database.get_container_client(CONTAINER_NAME)
 def hello():
     return "Hello, World", 200
 
-@app.route("/collections", method=['POST'])
-def process_json():
-    data = json.loads(request.data)
-    data["id"] = str(uuid.uuid4())
-    container.create_item(data)
-    return data, 201
+#@app.route("/collections", method=['POST'])
+#def process_json():
+#    data = json.loads(request.data)
+#    data["id"] = str(uuid.uuid4())
+#    container.create_item(data)
+#    return data, 201
 
 if __name__ == "__main__":
     app.run()
