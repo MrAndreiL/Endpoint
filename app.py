@@ -21,6 +21,10 @@ QUEUE_NAME = "endpointbusqueue"
 def hello():
     return "Hello, World", 200
 
+async def send_message(sender, message):
+    single_message = ServiceBusMessage(str(message))
+    await sender.send_messages(single_message)
+
 @app.route("/collections", methods=['POST'])
 def process_json():
     data = json.loads(request.data)
@@ -29,8 +33,7 @@ def process_json():
     # Send to bus.
     client = ServiceBusClient.from_connection_string(NAMESPACE_CONNECTION_STRING)
     sender = client.get_queue_sender(QUEUE_NAME)
-    single_message = ServiceBusMessage(str(data))
-    sender.send_messages(single_message)
+    send_message(sender, data)
     return data, 201
 
 if __name__ == "__main__":
