@@ -3,3 +3,5 @@ azure-cosmos==4.3.1
 azure-identity==1.10.0
 azure-messaging-webpubsubservice==1.0.1
 Flask==2.0.3
+azure-servicebus==7.9.0
+websockets==11.0.2
