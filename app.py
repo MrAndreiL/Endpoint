@@ -28,7 +28,7 @@ async def send_message(sender, message):
 @app.route("/collections", methods=['POST'])
 def process_json():
     data = json.loads(request.data)
-    data["id"] = data["email"]
+    data["id"] = str(uuid.uuid4())
     container.create_item(data)
     # Send to bus.
     client = ServiceBusClient.from_connection_string(NAMESPACE_CONNECTION_STRING)
